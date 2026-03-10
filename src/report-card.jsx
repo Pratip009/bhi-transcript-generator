@@ -112,15 +112,11 @@ const ReportCardGenerator = () => {
     window.print();
   };
 
-  // Format date string (YYYY-MM-DD) to "Month DD, YYYY"
+  
   const formatDisplayDate = (dateStr) => {
     if (!dateStr) return "";
-    const date = new Date(dateStr + "T00:00:00"); // avoid timezone shift
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    const [year, month, day] = dateStr.split("-");
+    return `${month}-${day}-${year}`;
   };
 
   const { totalMarks, avgGPA } = calculateTotals();
@@ -411,24 +407,54 @@ const ReportCardGenerator = () => {
                 <table className="w-full border-2 border-gray-800">
                   <tbody>
                     <tr className="border-b border-gray-800">
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 w-[15%] text-[10px] uppercase">Name:</td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800 w-[35%]">{formData.studentName}</td>
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 w-[15%] text-[10px] uppercase">SS Number:</td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] w-[35%]">{formData.ssNumber}</td>
+                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 w-[15%] text-[10px] uppercase">
+                        Name:
+                      </td>
+                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800 w-[35%]">
+                        {formData.studentName}
+                      </td>
+                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 w-[15%] text-[10px] uppercase">
+                        SS Number:
+                      </td>
+                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] w-[35%]">
+                        {formData.ssNumber}
+                      </td>
                     </tr>
                     <tr className="border-b border-gray-800">
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">Address:</td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800" colSpan="3">{formData.address}</td>
+                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">
+                        Address:
+                      </td>
+                      <td
+                        className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800"
+                        colSpan="3"
+                      >
+                        {formData.address}
+                      </td>
                     </tr>
                     <tr className="border-b border-gray-800">
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">Program:</td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800">{INSTITUTE_INFO.program}</td>
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">Entry Date:</td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px]">{formatDisplayDate(formData.startDate)}</td>
+                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">
+                        Program:
+                      </td>
+                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800">
+                        {INSTITUTE_INFO.program}
+                      </td>
+                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">
+                        Entry Date:
+                      </td>
+                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px]">
+                        {formatDisplayDate(formData.startDate)}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">Graduation:</td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px]" colSpan="3">{formatDisplayDate(formData.graduationDate)}</td>
+                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">
+                        Graduation:
+                      </td>
+                      <td
+                        className="py-1 px-2.5 text-gray-900 font-semibold text-[10px]"
+                        colSpan="3"
+                      >
+                        {formatDisplayDate(formData.graduationDate)}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -445,28 +471,56 @@ const ReportCardGenerator = () => {
               <table className="w-full mb-4 border border-gray-800">
                 <thead>
                   <tr className="bg-transparent text-gray-900 border-b border-gray-800">
-                    <th className="py-1.5 px-2 text-center font-extrabold text-[10px] border-r border-gray-700 w-12">S.No.</th>
-                    <th className="py-1.5 px-2.5 text-left font-extrabold text-[10px] border-r border-gray-700">Course Name</th>
-                    <th className="py-1.5 px-2 text-center font-extrabold text-[10px] border-r border-gray-700 w-16">Marks</th>
-                    <th className="py-1.5 px-2 text-center font-extrabold text-[10px] w-20">Grade</th>
+                    <th className="py-1.5 px-2 text-center font-extrabold text-[10px] border-r border-gray-700 w-12">
+                      S.No.
+                    </th>
+                    <th className="py-1.5 px-2.5 text-left font-extrabold text-[10px] border-r border-gray-700">
+                      Course Name
+                    </th>
+                    <th className="py-1.5 px-2 text-center font-extrabold text-[10px] border-r border-gray-700 w-16">
+                      Marks
+                    </th>
+                    <th className="py-1.5 px-2 text-center font-extrabold text-[10px] w-20">
+                      Grade
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {formData.courses.map((course) => {
                     const grade = course.marks ? getGrade(course.marks) : "—";
                     return (
-                      <tr key={course.id} className="border-b border-gray-800 bg-transparent">
-                        <td className="py-1 px-2 text-center font-bold text-gray-900 border-r border-gray-800 text-[10px]">{course.id}</td>
-                        <td className="py-1 px-2.5 font-semibold text-gray-900 border-r border-gray-800 text-[10px]">{course.name}</td>
-                        <td className="py-1 px-2 text-center font-bold text-gray-900 border-r border-gray-800 text-[10px]">{course.marks || "—"}</td>
-                        <td className="py-1 px-2 text-center font-black text-gray-900 text-xs w-20">{grade}</td>
+                      <tr
+                        key={course.id}
+                        className="border-b border-gray-800 bg-transparent"
+                      >
+                        <td className="py-1 px-2 text-center font-bold text-gray-900 border-r border-gray-800 text-[10px]">
+                          {course.id}
+                        </td>
+                        <td className="py-1 px-2.5 font-semibold text-gray-900 border-r border-gray-800 text-[10px]">
+                          {course.name}
+                        </td>
+                        <td className="py-1 px-2 text-center font-bold text-gray-900 border-r border-gray-800 text-[10px]">
+                          {course.marks || "—"}
+                        </td>
+                        <td className="py-1 px-2 text-center font-black text-gray-900 text-xs w-20">
+                          {grade}
+                        </td>
                       </tr>
                     );
                   })}
                   <tr className="bg-transparent text-gray-900">
-                    <td colSpan="2" className="py-1.5 px-2.5 text-right font-black text-[10px] uppercase border-r border-gray-700">Total Marks:</td>
-                    <td className="py-1.5 px-2 text-center font-black text-xs border-r border-gray-700">{totalMarks}</td>
-                    <td className="py-1.5 px-2 text-center font-black text-xs">GPA: {avgGPA}</td>
+                    <td
+                      colSpan="2"
+                      className="py-1.5 px-2.5 text-right font-black text-[10px] uppercase border-r border-gray-700"
+                    >
+                      Total Marks:
+                    </td>
+                    <td className="py-1.5 px-2 text-center font-black text-xs border-r border-gray-700">
+                      {totalMarks}
+                    </td>
+                    <td className="py-1.5 px-2 text-center font-black text-xs">
+                      GPA: {avgGPA}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -479,35 +533,86 @@ const ReportCardGenerator = () => {
                 <table className="w-full border-2 border-gray-800">
                   <tbody>
                     <tr className="bg-transparent">
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">A+</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">98 (4.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">A</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">94 (4.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">A-</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">90 (4.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">B+</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">87 (3.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">B</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">84 (3.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">B-</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 text-[9px]">80 (3.00)</td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        A+
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        98 (4.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        A
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        94 (4.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        A-
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        90 (4.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        B+
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        87 (3.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        B
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        84 (3.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        B-
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 text-[9px]">
+                        80 (3.00)
+                      </td>
                     </tr>
                     <tr className="bg-transparent border-t border-gray-800">
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">C+</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">77 (2.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">C</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">74 (2.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">C-</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">70 (2.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">D+</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">67 (1.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">D</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">64 (1.00)</td>
-                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">D-</td>
-                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 text-[9px]">60 (1.00)</td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        C+
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        77 (2.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        C
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        74 (2.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        C-
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        70 (2.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        D+
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        67 (1.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        D
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 border-r border-gray-800 text-[9px]">
+                        64 (1.00)
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-black text-gray-900 border-r border-gray-800 text-[10px]">
+                        D-
+                      </td>
+                      <td className="py-1 px-1.5 text-center font-semibold text-gray-900 text-[9px]">
+                        60 (1.00)
+                      </td>
                     </tr>
                     <tr className="bg-transparent border-t-2 border-gray-800">
-                      <td colSpan="12" className="py-1 px-2 text-center font-bold text-gray-900 text-[9px]">
+                      <td
+                        colSpan="12"
+                        className="py-1 px-2 text-center font-bold text-gray-900 text-[9px]"
+                      >
                         Pass/Fail Courses: 70% Minimum Passing Grade
                       </td>
                     </tr>
@@ -518,7 +623,8 @@ const ReportCardGenerator = () => {
               {/* Certification */}
               <div className="border-t-2 border-gray-800 pt-3">
                 <p className="text-center text-[9px] text-gray-700 mb-3 font-semibold italic">
-                  This is to certify that the above is a true and accurate transcript of the academic record.
+                  This is to certify that the above is a true and accurate
+                  transcript of the academic record.
                 </p>
 
                 <div className="grid grid-cols-2 gap-6">
@@ -548,13 +654,12 @@ const ReportCardGenerator = () => {
                   {/* Date Block — entered separately in the form */}
                   <div>
                     <div className="mb-0.5 text-[9px] font-bold text-gray-900 uppercase">
-                      Date:  <span className="text-sm text-gray-900 font-bold ml-2">
+                      Date:{" "}
+                      <span className="text-sm text-gray-900 font-bold ml-2">
                         {formatDisplayDate(formData.transcriptDate)}
                       </span>
                     </div>
-                    <div className="h-14 flex items-end pb-1">
-                      
-                    </div>
+                    <div className="h-14 flex items-end pb-1"></div>
                     <div className="border-b-2 border-gray-900 mb-0.5"></div>
                     <div className="text-[9px] text-gray-700 font-semibold mb-0.5">
                       Official Seal/Stamp
