@@ -12,33 +12,64 @@ const ReportCardGenerator = () => {
   const SIGNATURE_PATH = "/zeba.png"; // Change this to match your signature filename in public folder
 
   // Constant institutional data
-  const INSTITUTE_INFO = {
+  const INSTITUTE_INFO_BASE = {
     name: "BRIGHT HORIZON INSTITUTE",
     address: "591 Summit Avenue Suite 400",
     city: "Jersey City, NJ 07306",
     telephone: "(973) 732-2128",
     fax: "(973) 255-3900",
     email: "training@brighthorizoninstitute.com",
-    program: "Medical Assistant",
     director: "Zeba Fatima",
     directorTitle: "Director",
   };
 
-  const COURSE_LIST = [
-    { id: 1, name: "Medical Terminology" },
-    { id: 2, name: "Anatomy & Physiology-I" },
-    { id: 3, name: "Anatomy & Physiology-II" },
-    { id: 4, name: "Hematology" },
-    { id: 5, name: "EKG" },
-    { id: 6, name: "Microbiology & Urinalysis" },
-    { id: 7, name: "Pharmacology" },
-    { id: 8, name: "Clinical Procedures" },
-    { id: 9, name: "Medical Billing/Coding" },
-    { id: 10, name: "Medical Law & Ethics" },
-    { id: 11, name: "Management Skills" },
-    { id: 12, name: "Medical Office Applications" },
-    { id: 13, name: "Human Relations" },
-  ];
+  const PROGRAMS = {
+    medicalAssistant: {
+      label: "Medical Assistant",
+      courses: [
+        { id: 1, name: "Medical Terminology" },
+        { id: 2, name: "Anatomy & Physiology-I" },
+        { id: 3, name: "Anatomy & Physiology-II" },
+        { id: 4, name: "Hematology" },
+        { id: 5, name: "EKG" },
+        { id: 6, name: "Microbiology & Urinalysis" },
+        { id: 7, name: "Pharmacology" },
+        { id: 8, name: "Clinical Procedures" },
+        { id: 9, name: "Medical Billing/Coding" },
+        { id: 10, name: "Medical Law & Ethics" },
+        { id: 11, name: "Management Skills" },
+        { id: 12, name: "Medical Office Applications" },
+        { id: 13, name: "Human Relations" },
+      ],
+    },
+    medicalBillingCoding: {
+      label: "Medical Billing and Coding",
+      courses: [
+        { id: 1, name: "Medical Terminology" },
+        { id: 2, name: "Anatomy & Physiology" },
+        { id: 3, name: "ICD-10-CM Coding" },
+        { id: 4, name: "CPT & HCPCS Coding" },
+        { id: 5, name: "Medical Billing Procedures" },
+        { id: 6, name: "Health Insurance & Reimbursement" },
+        { id: 7, name: "Revenue Cycle Management" },
+        { id: 8, name: "Electronic Health Records (EHR)" },
+        { id: 9, name: "Compliance & HIPAA Regulations" },
+        { id: 10, name: "Medical Law & Ethics" },
+        { id: 11, name: "Management Skills" },
+        { id: 12, name: "Medical Office Applications" },
+        { id: 13, name: "Human Relations" },
+      ],
+    },
+  };
+
+  const [selectedProgram, setSelectedProgram] = useState("medicalAssistant");
+
+  const INSTITUTE_INFO = {
+    ...INSTITUTE_INFO_BASE,
+    program: PROGRAMS[selectedProgram].label,
+  };
+
+  const COURSE_LIST = PROGRAMS[selectedProgram].courses;
 
   const [formData, setFormData] = useState({
     studentName: "",
@@ -47,8 +78,17 @@ const ReportCardGenerator = () => {
     startDate: "",
     graduationDate: "",
     transcriptDate: "",
-    courses: COURSE_LIST.map((course) => ({ ...course, marks: "" })),
+    courses: PROGRAMS["medicalAssistant"].courses.map((course) => ({ ...course, marks: "" })),
   });
+
+  // Sync courses when program changes
+  const handleProgramSwitch = (programKey) => {
+    setSelectedProgram(programKey);
+    setFormData((prev) => ({
+      ...prev,
+      courses: PROGRAMS[programKey].courses.map((course) => ({ ...course, marks: "" })),
+    }));
+  };
 
   const [showPreview, setShowPreview] = useState(false);
 
@@ -169,6 +209,29 @@ const ReportCardGenerator = () => {
                 <p className="text-white/90 text-lg font-semibold tracking-widest uppercase">
                   Official Transcript Generator
                 </p>
+              </div>
+            </div>
+
+            {/* Program Switcher */}
+            <div className="px-8 pt-8 pb-4 border-b-2 border-gray-100">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-3 font-inter">
+                <GraduationCap className="text-indigo-600" size={28} />
+                Select Program
+              </h2>
+              <div className="flex gap-3">
+                {Object.entries(PROGRAMS).map(([key, prog]) => (
+                  <button
+                    key={key}
+                    onClick={() => handleProgramSwitch(key)}
+                    className={`px-6 py-3 rounded-xl font-bold text-base border-2 transition-all ${
+                      selectedProgram === key
+                        ? "bg-blue-700 text-white border-blue-700 shadow-lg"
+                        : "bg-white text-gray-700 border-gray-300 hover:border-indigo-400 hover:text-indigo-600"
+                    }`}
+                  >
+                    {prog.label}
+                  </button>
+                ))}
               </div>
             </div>
 
