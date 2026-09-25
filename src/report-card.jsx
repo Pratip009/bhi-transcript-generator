@@ -77,7 +77,7 @@ const ReportCardGenerator = () => {
         { id: 12, name: "Customer Service & Telephone Etiquette" },
         { id: 13, name: "Teamwork, Delegation & Multitasking" },
         { id: 14, name: "AI-Assisted Workplace Productivity" },
-        { id: 15, name: "Practical Projects & Final Integrated Assessment" },
+        { id: 15, name: "Practical Projects" },
       ],
     },
     shippingHandling: {
@@ -99,38 +99,30 @@ const ReportCardGenerator = () => {
         { id: 14, name: "Communication & Customer Service" },
         { id: 15, name: "Technology in Shipping Operations" },
         { id: 16, name: "End-to-End Shipment Management" },
-        { id: 17, name: "Practical Shipping & Handling Scenarios" },
-        { id: 18, name: "Final Integrated Assessment" },
+        
       ],
     },
     chhaHha: {
       label: "NJ CHHA / HHA",
       courses: [
-        { id: 1, name: "Introduction to Health Care Settings" },
-        { id: 2, name: "Roles & Responsibilities of Unlicensed Assistive Personnel" },
-        { id: 3, name: "Legal & Ethical Considerations" },
-        { id: 4, name: "Cultural Diversity & Professional Communication" },
-        { id: 5, name: "Basic Human Needs" },
-        { id: 6, name: "Environmental Safety" },
-        { id: 7, name: "Personal Safety" },
-        { id: 8, name: "Emergency Disasters & Emergency Preparedness" },
-        { id: 9, name: "Medical Emergencies & Emergency Response" },
-        { id: 10, name: "Infection Control & Standard Precautions" },
-        { id: 11, name: "Body Mechanics & Safe Client Handling" },
-        { id: 12, name: "Human Body & Body Systems" },
-        { id: 13, name: "Nutrition & Dietary Support" },
-        { id: 14, name: "Medications & Technology in Home Care" },
-        { id: 15, name: "Rest, Sleep & Comfort" },
-        { id: 16, name: "Death, Dying & End-of-Life Care" },
-        { id: 17, name: "Infant & Child Care" },
-        { id: 18, name: "Home Care Agency Roles & Responsibilities" },
-        { id: 19, name: "Statutes & Regulations Governing CHHA Practice" },
-        { id: 20, name: "Practical Skills & Clinical Training" },
-        { id: 21, name: "Integrated Home-Care Practical Scenarios" },
-        { id: 22, name: "Skills & Clinical Competency Assessment" },
-        { id: 23, name: "Proctored Online Final Examination" },
-        { id: 24, name: "CHHA Competency Checklist & Final Program Examination" },
-      ],
+  { id: 1, name: "Introduction to Health Care Settings" },
+  { id: 2, name: "Roles & Responsibilities of Unlicensed Assistive Personnel" },
+  { id: 3, name: "Legal & Ethical Considerations" },
+  { id: 4, name: "Cultural Diversity & Professional Communication" },
+  { id: 5, name: "Basic Human Needs" },
+  { id: 6, name: "Safety and it's measures" },
+  { id: 7, name: "Emergency" },
+  { id: 8, name: "Infection Control & Standard Precautions" },
+  { id: 9, name: "Body Mechanics & Safe Client Handling" },
+  { id: 10, name: "Human Body & Body Systems" },
+  { id: 11, name: "Nutrition & Dietary Support" },
+  { id: 12, name: "Medications & Technology in Home Care" },
+  { id: 13, name: "Infant & Child Care" },
+  { id: 14, name: "Statutes & Regulations Governing CHHA Practice" },
+  { id: 15, name: "Practical Skills & Clinical Training" },
+  { id: 16, name: "Integrated Home-Care Practical Scenarios" },
+  { id: 17, name: "Skills & Clinical Competency Assessment" },
+],
     },
   };
 
@@ -146,6 +138,7 @@ const ReportCardGenerator = () => {
   const [formData, setFormData] = useState({
     studentName: "",
     ssNumber: "",
+    startDate: "",
     graduationDate: "",
     transcriptDate: "",
     courses: PROGRAMS["medicalAssistant"].courses.map((course) => ({ ...course, marks: "" })),
@@ -235,8 +228,8 @@ const ReportCardGenerator = () => {
   // 14–19 courses: compact spacing; 20+ courses: dense spacing
   const compact = formData.courses.length > 13;
   const dense = formData.courses.length > 19;
-  const rowPad = dense ? "py-0 leading-[16px]" : compact ? "py-0.5" : "py-1";
-  const infoPad = compact ? "py-0.5" : "py-1";
+  const rowPad = dense ? "py-0 leading-[15px]" : compact ? "py-0.5" : "py-1";
+  const infoPad = dense ? "py-px" : compact ? "py-0.5" : "py-1";
   const headPad = compact ? "py-1" : "py-1.5";
 
   return (
@@ -347,6 +340,20 @@ const ReportCardGenerator = () => {
                       handleInputChange("ssNumber", e.target.value)
                     }
                     placeholder="XXX-XX-XXXX"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-800 transition-all hover:border-indigo-400"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-gray-700 uppercase tracking-wide">
+                    Start Date
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.startDate}
+                    onChange={(e) =>
+                      handleInputChange("startDate", e.target.value)
+                    }
                     className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-800 transition-all hover:border-indigo-400"
                   />
                 </div>
@@ -532,7 +539,7 @@ const ReportCardGenerator = () => {
                         {formData.ssNumber}
                       </td>
                     </tr>
-                    <tr>
+                    <tr className="border-b border-gray-800">
                       <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase`}>
                         Program:
                       </td>
@@ -540,9 +547,17 @@ const ReportCardGenerator = () => {
                         {INSTITUTE_INFO.program}
                       </td>
                       <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase`}>
-                        Graduation:
+                        Start Date:
                       </td>
                       <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px]`}>
+                        {formatDisplayDate(formData.startDate)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase`}>
+                        Graduation:
+                      </td>
+                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px]`} colSpan="3">
                         {formatDisplayDate(formData.graduationDate)}
                       </td>
                     </tr>
@@ -592,7 +607,7 @@ const ReportCardGenerator = () => {
                         <td className={`${rowPad} px-2 text-center font-bold text-gray-900 border-r border-gray-800 text-[10px]`}>
                           {course.marks || "—"}
                         </td>
-                        <td className={`${rowPad} px-2 text-center font-black text-gray-900 w-20 ${dense ? "text-[10px] leading-[16px]" : compact ? "text-[11px] leading-tight" : "text-xs"}`}>
+                        <td className={`${rowPad} px-2 text-center font-black text-gray-900 w-20 ${dense ? "text-[10px] leading-[15px]" : compact ? "text-[11px] leading-tight" : "text-xs"}`}>
                           {grade}
                         </td>
                       </tr>
