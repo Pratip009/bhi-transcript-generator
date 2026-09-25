@@ -110,7 +110,7 @@ const ReportCardGenerator = () => {
   { id: 3, name: "Legal & Ethical Considerations" },
   { id: 4, name: "Cultural Diversity & Professional Communication" },
   { id: 5, name: "Basic Human Needs" },
-  { id: 6, name: "Safety and it's measures" },
+  { id: 6, name: "Safety and Measures" },
   { id: 7, name: "Emergency" },
   { id: 8, name: "Infection Control & Standard Precautions" },
   { id: 9, name: "Body Mechanics & Safe Client Handling" },
