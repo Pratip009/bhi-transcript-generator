@@ -25,7 +25,7 @@ const ReportCardGenerator = () => {
 
   const PROGRAMS = {
     medicalAssistant: {
-      label: "Medical Assistant",
+      label: "MEDICAL ASSISTANT",
       courses: [
         { id: 1, name: "Medical Terminology" },
         { id: 2, name: "Anatomy & Physiology-I" },
@@ -43,7 +43,7 @@ const ReportCardGenerator = () => {
       ],
     },
     medicalBillingCoding: {
-      label: "Medical Billing and Coding",
+      label: "MEDICAL BILLING AND CODING",
       courses: [
         { id: 1, name: "Medical Terminology" },
         { id: 2, name: "Anatomy & Physiology" },
@@ -61,7 +61,7 @@ const ReportCardGenerator = () => {
       ],
     },
     officeManagement: {
-      label: "Office Management",
+      label: "OFFICE MANAGEMENT",
       courses: [
         { id: 1, name: "Computer & Digital Literacy" },
         { id: 2, name: "Office Administration & Business Operations" },
@@ -81,7 +81,7 @@ const ReportCardGenerator = () => {
       ],
     },
     shippingHandling: {
-      label: "Shipping & Handling",
+      label: "SHIPPING & HANDLING",
       courses: [
         { id: 1, name: "Freight & Shipping Fundamentals" },
         { id: 2, name: "Truck & Trailer Types" },
@@ -129,7 +129,7 @@ const ReportCardGenerator = () => {
 
   const INSTITUTE_INFO = {
     ...INSTITUTE_INFO_BASE,
-    program: PROGRAMS[selectedProgram].label,
+    program: PROGRAMS[selectedProgram].label.toUpperCase(),
   };
 
   const COURSE_LIST = PROGRAMS[selectedProgram].courses;
