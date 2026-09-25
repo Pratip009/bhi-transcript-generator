@@ -60,6 +60,78 @@ const ReportCardGenerator = () => {
         { id: 13, name: "Human Relations" },
       ],
     },
+    officeManagement: {
+      label: "Office Management",
+      courses: [
+        { id: 1, name: "Computer & Digital Literacy" },
+        { id: 2, name: "Office Administration & Business Operations" },
+        { id: 3, name: "Professional Communication & Workplace Ethics" },
+        { id: 4, name: "Record Keeping & Digital File Management" },
+        { id: 5, name: "Microsoft Word – Business Documents" },
+        { id: 6, name: "Microsoft Excel – Data Management" },
+        { id: 7, name: "Microsoft PowerPoint – Business Presentations" },
+        { id: 8, name: "Microsoft Outlook – Email, Calendar & Scheduling" },
+        { id: 9, name: "Cloud Storage & Digital Collaboration" },
+        { id: 10, name: "Time Management & Workplace Productivity" },
+        { id: 11, name: "Administrative Procedures & Office Support" },
+        { id: 12, name: "Customer Service & Telephone Etiquette" },
+        { id: 13, name: "Teamwork, Delegation & Multitasking" },
+        { id: 14, name: "AI-Assisted Workplace Productivity" },
+        { id: 15, name: "Practical Projects & Final Integrated Assessment" },
+      ],
+    },
+    shippingHandling: {
+      label: "Shipping & Handling",
+      courses: [
+        { id: 1, name: "Freight & Shipping Fundamentals" },
+        { id: 2, name: "Truck & Trailer Types" },
+        { id: 3, name: "Cargo & Load Planning" },
+        { id: 4, name: "Freight Classification & Documentation" },
+        { id: 5, name: "FTL & LTL Shipping" },
+        { id: 6, name: "Pickup & Delivery Coordination" },
+        { id: 7, name: "Rate & Pricing Fundamentals" },
+        { id: 8, name: "Carrier Selection & Load Matching" },
+        { id: 9, name: "Carrier Onboarding & Verification" },
+        { id: 10, name: "Rate Confirmation & Booking Procedures" },
+        { id: 11, name: "Shipment Tracking & Dispatching" },
+        { id: 12, name: "Shipping Delays & Problem Resolution" },
+        { id: 13, name: "Claims & Risk Management" },
+        { id: 14, name: "Communication & Customer Service" },
+        { id: 15, name: "Technology in Shipping Operations" },
+        { id: 16, name: "End-to-End Shipment Management" },
+        { id: 17, name: "Practical Shipping & Handling Scenarios" },
+        { id: 18, name: "Final Integrated Assessment" },
+      ],
+    },
+    chhaHha: {
+      label: "NJ CHHA / HHA",
+      courses: [
+        { id: 1, name: "Introduction to Health Care Settings" },
+        { id: 2, name: "Roles & Responsibilities of Unlicensed Assistive Personnel" },
+        { id: 3, name: "Legal & Ethical Considerations" },
+        { id: 4, name: "Cultural Diversity & Professional Communication" },
+        { id: 5, name: "Basic Human Needs" },
+        { id: 6, name: "Environmental Safety" },
+        { id: 7, name: "Personal Safety" },
+        { id: 8, name: "Emergency Disasters & Emergency Preparedness" },
+        { id: 9, name: "Medical Emergencies & Emergency Response" },
+        { id: 10, name: "Infection Control & Standard Precautions" },
+        { id: 11, name: "Body Mechanics & Safe Client Handling" },
+        { id: 12, name: "Human Body & Body Systems" },
+        { id: 13, name: "Nutrition & Dietary Support" },
+        { id: 14, name: "Medications & Technology in Home Care" },
+        { id: 15, name: "Rest, Sleep & Comfort" },
+        { id: 16, name: "Death, Dying & End-of-Life Care" },
+        { id: 17, name: "Infant & Child Care" },
+        { id: 18, name: "Home Care Agency Roles & Responsibilities" },
+        { id: 19, name: "Statutes & Regulations Governing CHHA Practice" },
+        { id: 20, name: "Practical Skills & Clinical Training" },
+        { id: 21, name: "Integrated Home-Care Practical Scenarios" },
+        { id: 22, name: "Skills & Clinical Competency Assessment" },
+        { id: 23, name: "Proctored Online Final Examination" },
+        { id: 24, name: "CHHA Competency Checklist & Final Program Examination" },
+      ],
+    },
   };
 
   const [selectedProgram, setSelectedProgram] = useState("medicalAssistant");
@@ -74,8 +146,6 @@ const ReportCardGenerator = () => {
   const [formData, setFormData] = useState({
     studentName: "",
     ssNumber: "",
-    address: "",
-    startDate: "",
     graduationDate: "",
     transcriptDate: "",
     courses: PROGRAMS["medicalAssistant"].courses.map((course) => ({ ...course, marks: "" })),
@@ -161,6 +231,14 @@ const ReportCardGenerator = () => {
 
   const { totalMarks, avgGPA } = calculateTotals();
 
+  // Programs with many courses use tighter row spacing so the transcript stays on one A4 page
+  // 14–19 courses: compact spacing; 20+ courses: dense spacing
+  const compact = formData.courses.length > 13;
+  const dense = formData.courses.length > 19;
+  const rowPad = dense ? "py-0 leading-[16px]" : compact ? "py-0.5" : "py-1";
+  const infoPad = compact ? "py-0.5" : "py-1";
+  const headPad = compact ? "py-1" : "py-1.5";
+
   return (
     <div className="min-h-screen bg-gray-200">
       <style>{`
@@ -218,7 +296,7 @@ const ReportCardGenerator = () => {
                 <GraduationCap className="text-indigo-600" size={28} />
                 Select Program
               </h2>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 {Object.entries(PROGRAMS).map(([key, prog]) => (
                   <button
                     key={key}
@@ -269,35 +347,6 @@ const ReportCardGenerator = () => {
                       handleInputChange("ssNumber", e.target.value)
                     }
                     placeholder="XXX-XX-XXXX"
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-800 transition-all hover:border-indigo-400"
-                  />
-                </div>
-
-                <div className="md:col-span-2 space-y-2">
-                  <label className="text-sm font-bold text-gray-700 uppercase tracking-wide">
-                    Student Address
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.address}
-                    onChange={(e) =>
-                      handleInputChange("address", e.target.value)
-                    }
-                    placeholder="Enter complete address"
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-800 transition-all hover:border-indigo-400"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700 uppercase tracking-wide">
-                    School Start Date
-                  </label>
-                  <input
-                    type="date"
-                    value={formData.startDate}
-                    onChange={(e) =>
-                      handleInputChange("startDate", e.target.value)
-                    }
                     className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-800 transition-all hover:border-indigo-400"
                   />
                 </div>
@@ -442,7 +491,7 @@ const ReportCardGenerator = () => {
 
             <div className="relative z-10">
               {/* Header */}
-              <div className="text-center pb-3 mb-4 border-b-2 border-gray-800">
+              <div className={`text-center pb-3 border-b-2 border-gray-800 ${compact ? "mb-3" : "mb-4"}`}>
                 <img
                   src={LOGO_PATH}
                   alt="Institute Logo"
@@ -466,56 +515,34 @@ const ReportCardGenerator = () => {
               </div>
 
               {/* Student Information Table */}
-              <div className="mb-4">
+              <div className={compact ? "mb-3" : "mb-4"}>
                 <table className="w-full border-2 border-gray-800">
                   <tbody>
                     <tr className="border-b border-gray-800">
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 w-[15%] text-[10px] uppercase">
+                      <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 w-[15%] text-[10px] uppercase`}>
                         Name:
                       </td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800 w-[35%]">
+                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800 w-[35%]`}>
                         {formData.studentName}
                       </td>
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 w-[15%] text-[10px] uppercase">
+                      <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 w-[15%] text-[10px] uppercase`}>
                         SS Number:
                       </td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] w-[35%]">
+                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px] w-[35%]`}>
                         {formData.ssNumber}
                       </td>
                     </tr>
-                    <tr className="border-b border-gray-800">
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">
-                        Address:
-                      </td>
-                      <td
-                        className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800"
-                        colSpan="3"
-                      >
-                        {formData.address}
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-800">
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">
+                    <tr>
+                      <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase`}>
                         Program:
                       </td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800">
+                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800`}>
                         {INSTITUTE_INFO.program}
                       </td>
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">
-                        Entry Date:
-                      </td>
-                      <td className="py-1 px-2.5 text-gray-900 font-semibold text-[10px]">
-                        {formatDisplayDate(formData.startDate)}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="py-1 px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase">
+                      <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase`}>
                         Graduation:
                       </td>
-                      <td
-                        className="py-1 px-2.5 text-gray-900 font-semibold text-[10px]"
-                        colSpan="3"
-                      >
+                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px]`}>
                         {formatDisplayDate(formData.graduationDate)}
                       </td>
                     </tr>
@@ -534,16 +561,16 @@ const ReportCardGenerator = () => {
               <table className="w-full mb-4 border border-gray-800">
                 <thead>
                   <tr className="bg-transparent text-gray-900 border-b border-gray-800">
-                    <th className="py-1.5 px-2 text-center font-extrabold text-[10px] border-r border-gray-700 w-12">
+                    <th className={`${headPad} px-2 text-center font-extrabold text-[10px] border-r border-gray-700 w-12`}>
                       S.No.
                     </th>
-                    <th className="py-1.5 px-2.5 text-left font-extrabold text-[10px] border-r border-gray-700">
+                    <th className={`${headPad} px-2.5 text-left font-extrabold text-[10px] border-r border-gray-700`}>
                       Course Name
                     </th>
-                    <th className="py-1.5 px-2 text-center font-extrabold text-[10px] border-r border-gray-700 w-16">
+                    <th className={`${headPad} px-2 text-center font-extrabold text-[10px] border-r border-gray-700 w-16`}>
                       Marks
                     </th>
-                    <th className="py-1.5 px-2 text-center font-extrabold text-[10px] w-20">
+                    <th className={`${headPad} px-2 text-center font-extrabold text-[10px] w-20`}>
                       Grade
                     </th>
                   </tr>
@@ -556,16 +583,16 @@ const ReportCardGenerator = () => {
                         key={course.id}
                         className="border-b border-gray-800 bg-transparent"
                       >
-                        <td className="py-1 px-2 text-center font-bold text-gray-900 border-r border-gray-800 text-[10px]">
+                        <td className={`${rowPad} px-2 text-center font-bold text-gray-900 border-r border-gray-800 text-[10px]`}>
                           {course.id}
                         </td>
-                        <td className="py-1 px-2.5 font-semibold text-gray-900 border-r border-gray-800 text-[10px]">
+                        <td className={`${rowPad} px-2.5 font-semibold text-gray-900 border-r border-gray-800 text-[10px]`}>
                           {course.name}
                         </td>
-                        <td className="py-1 px-2 text-center font-bold text-gray-900 border-r border-gray-800 text-[10px]">
+                        <td className={`${rowPad} px-2 text-center font-bold text-gray-900 border-r border-gray-800 text-[10px]`}>
                           {course.marks || "—"}
                         </td>
-                        <td className="py-1 px-2 text-center font-black text-gray-900 text-xs w-20">
+                        <td className={`${rowPad} px-2 text-center font-black text-gray-900 w-20 ${dense ? "text-[10px] leading-[16px]" : compact ? "text-[11px] leading-tight" : "text-xs"}`}>
                           {grade}
                         </td>
                       </tr>
@@ -574,14 +601,14 @@ const ReportCardGenerator = () => {
                   <tr className="bg-transparent text-gray-900">
                     <td
                       colSpan="2"
-                      className="py-1.5 px-2.5 text-right font-black text-[10px] uppercase border-r border-gray-700"
+                      className={`${headPad} px-2.5 text-right font-black text-[10px] uppercase border-r border-gray-700`}
                     >
                       Total Marks:
                     </td>
-                    <td className="py-1.5 px-2 text-center font-black text-xs border-r border-gray-700">
+                    <td className={`${headPad} px-2 text-center font-black text-xs border-r border-gray-700`}>
                       {totalMarks}
                     </td>
-                    <td className="py-1.5 px-2 text-center font-black text-xs">
+                    <td className={`${headPad} px-2 text-center font-black text-xs`}>
                       GPA: {avgGPA}
                     </td>
                   </tr>
