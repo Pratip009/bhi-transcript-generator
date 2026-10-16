@@ -99,31 +99,30 @@ const ReportCardGenerator = () => {
         { id: 14, name: "Communication & Customer Service" },
         { id: 15, name: "Technology in Shipping Operations" },
         { id: 16, name: "End-to-End Shipment Management" },
-        
       ],
     },
     chhaHha: {
       label: "NJ CHHA / HHA",
       courses: [
-  { id: 1, name: "Roles and responsibilities" },
-  { id: 2, name: "Legal & Ethical Considerations" },
-  { id: 3, name: "Cultural Diversity & Professional Communication" },
-  { id: 4, name: "Basic Human Needs" },
-  { id: 5, name: "Safety and Measures" },
-  { id: 6, name: "Emergency" },
-  { id: 7, name: "Infection Control & Standard Precautions" },
-  { id: 8, name: "Body Mechanics & Safe Client Handling" },
-  { id: 9, name: "Human Body & Body Systems" },
-  { id: 10, name: "Nutrition & Dietary Support" },
-  { id: 11, name: "Medications & Technology in Home Care" },
-  { id: 12, name: "Infant & Child Care" },
-  { id: 13, name: "Statutes & Regulations Governing CHHA Practice" },
-  { id: 14, name: "Practical Skills & Clinical Training" },
-  { id: 15, name: "Integrated Home-Care Practical Scenarios" },
-  { id: 16, name: "Skills & Clinical Competency Assessment" },
-],
+        { id: 1, name: "Roles and responsibilities" },
+        { id: 2, name: "Legal & Ethical Considerations" },
+        { id: 3, name: "Cultural Diversity & Professional Communication" },
+        { id: 4, name: "Basic Human Needs" },
+        { id: 5, name: "Safety and Measures" },
+        { id: 6, name: "Emergency" },
+        { id: 7, name: "Infection Control & Standard Precautions" },
+        { id: 8, name: "Body Mechanics & Safe Client Handling" },
+        { id: 9, name: "Human Body & Body Systems" },
+        { id: 10, name: "Nutrition & Dietary Support" },
+        { id: 11, name: "Medications & Technology in Home Care" },
+        { id: 12, name: "Infant & Child Care" },
+        { id: 13, name: "Statutes & Regulations Governing CHHA Practice" },
+        { id: 14, name: "Practical Skills & Clinical Training" },
+        { id: 15, name: "Integrated Home-Care Practical Scenarios" },
+        { id: 16, name: "Skills & Clinical Competency Assessment" },
+      ],
     },
-        ekgTechnician: {
+    ekgTechnician: {
       label: "EKG TECHNICIAN",
       courses: [
         { id: 1, name: "Medical Terminology" },
@@ -141,7 +140,7 @@ const ReportCardGenerator = () => {
         { id: 13, name: "Clinical Practicum" },
       ],
     },
-        phlebotomy: {
+    phlebotomy: {
       label: "PHLEBOTOMY",
       courses: [
         { id: 1, name: "Medical Terminology" },
@@ -159,7 +158,7 @@ const ReportCardGenerator = () => {
         { id: 13, name: "Clinical Externship" },
       ],
     },
-        patientCareTechnician: {
+    patientCareTechnician: {
       label: "PATIENT CARE TECHNICIAN",
       courses: [
         { id: 1, name: "Medical Terminology" },
@@ -177,6 +176,21 @@ const ReportCardGenerator = () => {
         { id: 13, name: "Clinical Externship" },
       ],
     },
+    residentialElectrician: {
+      label: "RESIDENTIAL ELECTRICIAN",
+      courses: [
+        { id: 1, name: "Basic Residential Electrical Foundations and Wiring" },
+        { id: 2, name: "Electrical Tools, Safety and Methods" },
+        { id: 3, name: "Circuits, Load Calculations and Control" },
+        { id: 4, name: "Electrical Troubleshooting" },
+        { id: 5, name: "Fundamentals of Network Cabling" },
+        { id: 6, name: "Ethernet Basics" },
+        { id: 7, name: "Wiring Standards" },
+        { id: 8, name: "RJ-45 Termination and Testing" },
+        { id: 9, name: "Final Assessments" },
+        { id: 10, name: "Project" },
+      ],
+    },
   };
 
   const [selectedProgram, setSelectedProgram] = useState("medicalAssistant");
@@ -186,11 +200,8 @@ const ReportCardGenerator = () => {
     program: PROGRAMS[selectedProgram].label.toUpperCase(),
   };
 
-  const COURSE_LIST = PROGRAMS[selectedProgram].courses;
-
   const [formData, setFormData] = useState({
     studentName: "",
-    ssNumber: "",
     startDate: "",
     graduationDate: "",
     transcriptDate: "",
@@ -268,7 +279,6 @@ const ReportCardGenerator = () => {
     window.print();
   };
 
-  
   const formatDisplayDate = (dateStr) => {
     if (!dateStr) return "";
     const [year, month, day] = dateStr.split("-");
@@ -378,21 +388,6 @@ const ReportCardGenerator = () => {
                       handleInputChange("studentName", e.target.value)
                     }
                     placeholder="Enter full name"
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-800 transition-all hover:border-indigo-400"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700 uppercase tracking-wide">
-                    Social Security Number
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.ssNumber}
-                    onChange={(e) =>
-                      handleInputChange("ssNumber", e.target.value)
-                    }
-                    placeholder="XXX-XX-XXXX"
                     className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-800 transition-all hover:border-indigo-400"
                   />
                 </div>
@@ -586,31 +581,23 @@ const ReportCardGenerator = () => {
                         {formData.studentName}
                       </td>
                       <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 w-[15%] text-[10px] uppercase`}>
-                        SS Number:
-                      </td>
-                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px] w-[35%]`}>
-                        {formData.ssNumber}
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-800">
-                      <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase`}>
                         Program:
                       </td>
-                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800`}>
+                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px] w-[35%]`}>
                         {INSTITUTE_INFO.program}
-                      </td>
-                      <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase`}>
-                        Start Date:
-                      </td>
-                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px]`}>
-                        {formatDisplayDate(formData.startDate)}
                       </td>
                     </tr>
                     <tr>
                       <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase`}>
+                        Start Date:
+                      </td>
+                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px] border-r border-gray-800`}>
+                        {formatDisplayDate(formData.startDate)}
+                      </td>
+                      <td className={`${infoPad} px-2.5 font-bold text-gray-900 border-r border-gray-800 text-[10px] uppercase`}>
                         Graduation:
                       </td>
-                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px]`} colSpan="3">
+                      <td className={`${infoPad} px-2.5 text-gray-900 font-semibold text-[10px]`}>
                         {formatDisplayDate(formData.graduationDate)}
                       </td>
                     </tr>
